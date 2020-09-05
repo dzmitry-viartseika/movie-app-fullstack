@@ -2,7 +2,7 @@
   <div class="app-movies-list">
     <div class="app__container">
       <div class="app-movies-list__title">
-        IMDB {{ $t('moviesList.top') }} 250
+        IMDB {{ $t('moviesList.top') }} 250 {{ moviesList }}
       </div>
       <div
         class="app-movies-list__row"
@@ -32,9 +32,20 @@ export default {
       default: () => [],
     },
   },
+  computed: {
+    moviesList: {
+      get() {
+        return this.$store.getters.moviesList;
+      },
+      set(data) {
+        this.$store.dispatch('setMoviesList', data);
+      },
+    },
+  },
   beforeMount() {
     moviesApi.getMoviesList().then((resp) => {
       console.log('resp', resp.data);
+      this.moviesList = resp.data;
     }).catch((e) => {
       console.log(e);
     });

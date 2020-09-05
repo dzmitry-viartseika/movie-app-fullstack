@@ -1,14 +1,12 @@
+import * as domain from '@/api/constants/domain';
+
 const axios = require('axios');
 
 export default {
   getMoviesList() {
     const instWithCred = axios.create({
-      baseURL: process.env.VUE_APP_API_URL,
+      baseURL: domain.MOVIES_API,
     });
-    return instWithCred.get('/', {
-      params: {
-        apikey: process.env.VUE_APP_API_KEY,
-      },
-    });
+    return instWithCred.get('/getMoviesList');
   },
 };

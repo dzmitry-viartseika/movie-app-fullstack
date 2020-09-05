@@ -12,6 +12,12 @@
         <div class="search">
           <textInput :inputSettings="inputSettings"></textInput>
         </div>
+        <div class="language">
+          <dropdown
+            :dropdownOptions="dropdownOptions"
+            @changeDropdown="changeLanguage"
+          />
+        </div>
         <div class="action">
           <buttonTemplate :buttonSettings="buttonSettings" />
         </div>
@@ -23,14 +29,24 @@
 <script>
 import buttonTemplate from '@/components/elements/buttonTemplate';
 import textInput from '@/components/elements/textInput';
+import dropdown from '@/components/elements/dropdown';
 
 export default {
   name: 'HeaderTemplate',
   components: {
     buttonTemplate,
     textInput,
+    dropdown,
   },
   computed: {
+    language: {
+      get() {
+        return this.$i18n.locale;
+      },
+      set(data) {
+        this.$i18n.locale = data;
+      },
+    },
     buttonSettings() {
       return {
         buttonText: 'Add movie',
@@ -47,8 +63,27 @@ export default {
         buttonClickEvent: this.searchMovie,
       };
     },
+    dropdownOptions() {
+      return {
+        list: [
+          {
+            code: 'ru',
+            text: 'Русский',
+          },
+          {
+            code: 'en',
+            text: 'English',
+          },
+        ],
+        value: this.language,
+      };
+    },
   },
   methods: {
+    changeLanguage(code) {
+      this.language = code;
+      this.$i18n.locale = code;
+    },
     addNewMovie() {
       console.log('addNewMovie');
     },

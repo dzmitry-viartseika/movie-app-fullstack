@@ -1,5 +1,2 @@
 export const SET_MOVIES_LIST = 'SET_MOVIES_LIST';
-
-export default {
-  SET_MOVIES_LIST,
-};
+export const SET_ALL_COUNTRIES_LIST = 'SET_ALL_COUNTRIES_LIST';
