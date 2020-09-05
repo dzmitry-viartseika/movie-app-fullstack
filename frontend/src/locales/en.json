@@ -1,0 +1,8 @@
+{
+  "global": {
+    "addMovie": "Add movie"
+  },
+  "moviesList": {
+    "top": "Top"
+  }
+}

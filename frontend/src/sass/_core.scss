@@ -1,0 +1,31 @@
+body {
+  font: $font-size-base $font-global;
+  line-height: 1.2;
+  background: $color-white;
+  color: $color-black;
+}
+
+#app {
+  display: flex;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.app {
+
+  &__container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  &__validation {
+    position: absolute;
+    color: $color-cardinal;
+    font: $font-size-sm $font-global-medium;
+    line-height: 1.55;
+  }
+}
