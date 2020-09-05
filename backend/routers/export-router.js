@@ -1,7 +1,7 @@
-const goodsRouter = require('../routers/goods')
-const userRouter = require('../routers/user')
+const moviesRouter = require('./movies')
+const userRouter = require('./user')
 
 module.exports = {
-    goodsRouter,
+    moviesRouter,
     userRouter,
 }

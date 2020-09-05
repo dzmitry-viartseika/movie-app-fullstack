@@ -1,12 +1,12 @@
-const Goods = require('../models/goodsList');
+const Movies = require('../models/moviesList');
 const mongoose = require('mongoose');
-const PizzaList = mongoose.model('Pizza');
+const moviesList = mongoose.model('Movie');
 const ObjectId = require('mongodb').ObjectID;
 
-class GoodsController {
+class MoviesController {
     constructor(){}
-    getGoods = async (req, res) => {
-        PizzaList.find((err, docs) => {
+    getMoviesList = async (req, res) => {
+        moviesList.find((err, docs) => {
             if (err) {
                 res.send(err);
             } else {
@@ -15,7 +15,7 @@ class GoodsController {
         })
     };
     newItem = async (req, res) => {
-        const item = new PizzaList()
+        const item = new moviesList()
             item.name = req.body.item.name,
             item.description = req.body.item.description,
             item.options = req.body.item.options,
@@ -24,7 +24,7 @@ class GoodsController {
     deleteItem = async (req, res) => {
         const id = req.query.id;
         const o_id = new ObjectId(id);
-        PizzaList.deleteOne({ _id: o_id }, function(err, result) {
+        moviesList.deleteOne({ _id: o_id }, function(err, result) {
             if (err) {
                 res.send('err');
             } else {
@@ -34,4 +34,4 @@ class GoodsController {
     };
 }
 
-module.exports = GoodsController;
+module.exports = MoviesController;

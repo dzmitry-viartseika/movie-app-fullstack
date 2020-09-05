@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const pizzaSchema = new mongoose.Schema({
+const moviesSchema = new mongoose.Schema({
     name: {
         type: String,
     },
@@ -19,5 +19,5 @@ const pizzaSchema = new mongoose.Schema({
     ]
 });
 
-const Pizza = mongoose.model('Pizza', pizzaSchema)
-module.exports = Pizza
+const Movie = mongoose.model('Movie', moviesSchema)
+module.exports = Movie

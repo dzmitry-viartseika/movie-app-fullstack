@@ -79,6 +79,12 @@ export default {
 
   .logo {
     color: $color-white;
+    cursor: pointer;
+    transition: opacity .15s ease-in;
+
+    &:hover {
+      opacity: .8;
+    }
 
     i {
       margin-right: 5px;

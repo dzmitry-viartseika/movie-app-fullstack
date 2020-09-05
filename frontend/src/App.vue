@@ -21,12 +21,6 @@ export default {
     if (systemLanguage !== 'ru') {
       this.$i18n.locale = 'en';
     }
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.$router.push('/panel');
-    } else {
-      this.$router.push('/login');
-    }
   },
 };
 </script>
