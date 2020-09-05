@@ -1,8 +1,12 @@
 {
   "global": {
-    "addMovie": "Add movie"
+    "addMovie": "Add movie",
+    "send": "Send"
   },
   "moviesList": {
     "top": "Top"
+  },
+  "addNewMovieModal": {
+    "title": "Add movie"
   }
 }

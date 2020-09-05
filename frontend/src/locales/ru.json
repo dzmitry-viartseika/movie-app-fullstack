@@ -1,8 +1,12 @@
 {
   "global": {
-    "addMovie": "Добавить видео"
+    "addMovie": "Добавить видео",
+    "send": "Отправить"
   },
   "moviesList": {
     "top": "Лучшие"
+  },
+  "addNewMovieModal": {
+    "title": "Добавить видео"
   }
 }

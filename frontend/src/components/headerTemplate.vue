@@ -21,6 +21,10 @@
         <div class="action">
           <buttonTemplate :buttonSettings="buttonSettings" />
         </div>
+        <addNewMovieModal
+          v-if="isVisibleModal"
+          @closeModal="closeModal"
+        />
       </div>
     </div>
   </header>
@@ -30,6 +34,7 @@
 import buttonTemplate from '@/components/elements/buttonTemplate';
 import textInput from '@/components/elements/textInput';
 import dropdown from '@/components/elements/dropdown';
+import addNewMovieModal from '@/components/modal/addNewMovieModal';
 
 export default {
   name: 'HeaderTemplate',
@@ -37,6 +42,12 @@ export default {
     buttonTemplate,
     textInput,
     dropdown,
+    addNewMovieModal,
+  },
+  data() {
+    return {
+      isVisibleModal: false,
+    };
   },
   computed: {
     language: {
@@ -80,13 +91,16 @@ export default {
     },
   },
   methods: {
+    closeModal() {
+      this.isVisibleModal = false;
+    },
     changeLanguage(code) {
       this.language = code;
       this.$i18n.locale = code;
       localStorage.setItem('language', code);
     },
     addNewMovie() {
-      console.log('addNewMovie');
+      this.isVisibleModal = true;
     },
     searchMovie() {
       console.log('searchMovie');

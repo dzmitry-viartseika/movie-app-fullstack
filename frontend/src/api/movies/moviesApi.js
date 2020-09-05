@@ -9,4 +9,11 @@ export default {
     });
     return instWithCred.get('/getMoviesList');
   },
+  addNewMovie(movie) {
+    console.log('movie', movie);
+    const instWithCred = axios.create({
+      baseURL: domain.MOVIES_API,
+    });
+    return instWithCred.post('/newItem', { movie });
+  },
 };
