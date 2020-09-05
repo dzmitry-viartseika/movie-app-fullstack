@@ -14,6 +14,12 @@ export default {
     },
   },
   beforeMount() {
+    const storageLanguage = localStorage.getItem('language');
+    if (storageLanguage) {
+      this.$i18n.locale = storageLanguage;
+    } else {
+      localStorage.setItem('language', this.$i18n.locale);
+    }
     const language = window.navigator ? (window.navigator.language
         || window.navigator.systemLanguage
         || window.navigator.userLanguage) : 'ru';

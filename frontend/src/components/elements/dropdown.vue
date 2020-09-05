@@ -101,7 +101,7 @@ export default {
     },
   },
   beforeMount() {
-    this.value = 'Ru';
+    this.value = this.$i18n.locale;
   },
   mounted() {
     document.addEventListener('click', this.close);

@@ -83,6 +83,7 @@ export default {
     changeLanguage(code) {
       this.language = code;
       this.$i18n.locale = code;
+      localStorage.setItem('language', code);
     },
     addNewMovie() {
       console.log('addNewMovie');
