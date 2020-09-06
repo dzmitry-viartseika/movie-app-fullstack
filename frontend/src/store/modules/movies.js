@@ -10,13 +10,14 @@ const getters = {
 
 const actions = {
   setMoviesList({ commit }, data) {
-    commit(types.SET_ALL_COUNTRIES_LIST, data);
+    console.log('store', data);
+    commit(types.SET_MOVIES_LIST, data);
   },
 };
 
 const mutations = {
-  [types.SET_ALL_COUNTRIES_LIST](state, data) {
-    state.setMoviesList = data;
+  [types.SET_MOVIES_LIST](state, data) {
+    state.moviesList = data;
   },
 };
 

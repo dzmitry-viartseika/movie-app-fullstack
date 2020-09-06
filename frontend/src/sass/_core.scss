@@ -27,5 +27,9 @@ img {
     color: $color-cardinal;
     font: $font-size-sm $font-global-medium;
     line-height: 1.55;
+    bottom: -16px;
+  }
+  &-form-field {
+    position: relative;
   }
 }

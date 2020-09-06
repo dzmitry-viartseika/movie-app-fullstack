@@ -1,12 +1,22 @@
 {
   "global": {
     "addMovie": "Добавить видео",
-    "send": "Отправить"
+    "send": "Отправить",
+    "titleFieild": "Заголовок",
+    "descriptionField": "Описание",
+    "year": "Год",
+    "edit": "Изменить",
+    "save": "Сохранить",
+    "delete": "Удалить"
   },
   "moviesList": {
     "top": "Лучшие"
   },
   "addNewMovieModal": {
     "title": "Добавить видео"
+  },
+  "placeholderMovie": {
+    "titleNoData": "Список стран пуст",
+    "descriptionNoData": "Список стран ещё пуст. Если вы хотите добавить страну – нажмите на кнопку ниже"
   }
 }

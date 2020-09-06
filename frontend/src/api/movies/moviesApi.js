@@ -10,10 +10,22 @@ export default {
     return instWithCred.get('/getMoviesList');
   },
   addNewMovie(movie) {
-    console.log('movie', movie);
     const instWithCred = axios.create({
       baseURL: domain.MOVIES_API,
     });
     return instWithCred.post('/newItem', { movie });
+  },
+  deleteMovie(id) {
+    const instWithCred = axios.create({
+      baseURL: domain.MOVIES_API,
+    });
+    return instWithCred.delete(`/deleteItem/?id=${id}`);
+  },
+  updateMovie(movie) {
+    console.log('movie', movie);
+    const instWithCred = axios.create({
+      baseURL: domain.MOVIES_API,
+    });
+    return instWithCred.patch(`changeItem/?id=${movie._id}`, { ...movie });
   },
 };

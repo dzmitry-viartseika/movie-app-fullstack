@@ -1,12 +1,22 @@
 {
   "global": {
     "addMovie": "Add movie",
-    "send": "Send"
+    "send": "Send",
+    "titleFieild": "Title",
+    "descriptionField": "Description",
+    "year": "Year",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete"
   },
   "moviesList": {
     "top": "Top"
   },
   "addNewMovieModal": {
     "title": "Add movie"
+  },
+  "placeholderMovie": {
+    "titleNoData": "List of movies are empty",
+    "descriptionNoData": "List of movies are empty still. If you want to add - press button below"
   }
 }

@@ -21,10 +21,12 @@
         <div class="action">
           <buttonTemplate :buttonSettings="buttonSettings" />
         </div>
-        <addNewMovieModal
-          v-if="isVisibleModal"
-          @closeModal="closeModal"
-        />
+        <transition name="fade-el">
+          <addNewMovieModal
+            v-if="isVisibleModal"
+            @closeModal="closeModal"
+          />
+        </transition>
       </div>
     </div>
   </header>

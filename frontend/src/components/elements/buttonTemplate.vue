@@ -3,7 +3,10 @@
     <button
       class="app-button__btn"
       @click="buttonSettings.buttonClickEvent"
-      :class="{'app-button__btn_border': buttonSettings.borderButton}"
+      :class="[
+        {'app-button__btn_border': buttonSettings.borderButton},
+        {'app-button__btn_primary': buttonSettings.primaryButton}
+      ]"
     >
       <i
         v-if="buttonSettings.icon"

@@ -1,18 +1,31 @@
 <template>
   <div class="app-field">
     <label
-      v-if="inputSettings.labelText"
+      v-if="labelText"
       class="app-field__label"
-    >{{ inputSettings.labelText }}</label>
-    <div class="app-field__wrap">
+    >{{ labelText }}</label>
+    <div
+      :class="{'app-field__wrap_error': errorStatus}"
+      class="app-field__wrap"
+    >
       <input
+        ref="input"
+        v-model="model"
         class="app-field__input"
-        :type="inputSettings.typeInput"
-        :placeholder="inputSettings.placeholder"
+        :type="typeInput"
+        :placeholder="placeholder"
+        :autofocus="autofocus"
+        @keydown="handleEventClick($event)"
+        @focus="inputFocusStatus(true)"
+        @blur="inputFocusStatus(false)"
       >
       <i
-        v-if="inputSettings.icon"
-        :class="inputSettings.icon"
+        v-if="icon"
+        :class="icon"
+      ></i>
+      <i
+        v-if="errorStatus"
+        class="custom-icon-info-valid app-field__icon app-field__icon_error"
       ></i>
     </div>
   </div>
@@ -22,9 +35,63 @@
 export default {
   name: 'TextInput',
   props: {
-    inputSettings: {
-      type: Object,
-      default: () => {},
+    typeInput: {
+      type: String,
+      default: () => 'text',
+    },
+    autofocus: {
+      type: Boolean,
+      default: () => false,
+    },
+    value: {
+      value: {
+        type: [String, Number],
+      },
+    },
+    icon: {
+      type: String,
+      default: () => '',
+    },
+    placeholder: {
+      type: String,
+      default: () => '',
+    },
+    labelText: {
+      type: String,
+      default: () => '',
+    },
+    errorStatus: {
+      type: Boolean,
+      default: () => false,
+    },
+  },
+  computed: {
+    model: {
+      get() {
+        return this.value;
+      },
+      set(data) {
+        this.$emit('update:value', data);
+      },
+    },
+  },
+  mounted() {
+    if (this.$refs !== undefined) {
+      if (this.autofocus) {
+        this.$refs.input.focus();
+      }
+    }
+  },
+  methods: {
+    inputFocusStatus(e) {
+      this.$emit('inputFocusStatus', e);
+    },
+    handleEventClick(e) {
+      if (e.keyCode === 13) {
+        this.$emit('handleEventClick');
+      } else {
+        this.$emit('changeInput');
+      }
     },
   },
 };
@@ -34,30 +101,48 @@ export default {
 @import "../../sass/variables";
 
   .app-field {
+    margin-bottom: 15px;
+
+    &__label {
+      display: block;
+      margin-bottom: 5px;
+    }
 
     &__input {
-      background: $color-recent-gray;
-      border: none;
-      width: 300px;
+      background: $color-white;
+      border: 1px solid $color-gallery;
+      width: 100%;
       height: 40px;
       padding: 5px 35px 5px 15px;
       display: flex;
       align-items: center;
       font: $font-size-base $font-global-medium;
-      color: $color-white;
+      color: $color-black;
       border-radius: $borderRadius;
+      transition: border-color .15s ease-in;
+
+      &:focus {
+        border-color: $color-cornflower-blue;
+      }
     }
 
     &__wrap {
       position: relative;
 
-      i {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        color: $color-white;
-        font-size: $font-size-base;
+      &_error {
+
+        .app-field__input {
+          border-color: $color-cardinal;
+        }
       }
+    }
+
+    &__icon {
+      color: $color-cardinal;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: $font-size-base;
     }
   }
 
