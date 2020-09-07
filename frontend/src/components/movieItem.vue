@@ -116,9 +116,9 @@ export default {
       this.editMode = item._id;
       this.movieInfo = item;
     },
-    saveItem(item) {
+    saveItem(movie) {
       this.editMode = -1;
-      moviesApi.updateMovie(item).then((resp) => {
+      moviesApi.updateMovie(movie).then((resp) => {
         console.log('resp', resp.data);
       }).catch((e) => {
         console.log(e);

@@ -36,9 +36,14 @@ class MoviesController {
         });
     };
     changeItem = async (req,res) => {
-        console.log('req', req.body);
-        moviesList.findOneAndUpdate({_id: req.query.id},
-            {$set: {'movie.$.title': req.body.title, 'movie.$.description': req.body.description}}).exec(function (err, doc) {console.log(doc)});
+        moviesList.findOneAndUpdate({_id: req.query.id}, {$set:
+                {title: req.body.title, description: req.body.description, year: req.body.year}
+        },function(err, doc){
+            if(err){
+                console.log("Something wrong when updating data!");
+            }
+            console.log(doc);
+        });
     };
 }
 

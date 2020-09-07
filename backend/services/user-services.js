@@ -1,9 +1,7 @@
 const User = require('../models/user');
 
 const add = async function (req) {
-    console.log('add', req.body);
     const user = new User(req.body);
-    console.log('user', user);
     await user.save();
     const token = await user.generateAuthToken();
     return {user, token}
@@ -18,10 +16,7 @@ const update = async function(req){
 };
 
 const login = async function(req){
-    console.log('user');
-    console.log('req.body.login', req.body.login, req.body.password);
     const user = await User.findByCredentials(req.body.login, req.body.password);
-    console.log(user);
     const token = await user.generateAuthToken();
     return {user, token}
 };

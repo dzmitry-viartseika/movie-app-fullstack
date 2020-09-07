@@ -26,6 +26,6 @@ export default {
     const instWithCred = axios.create({
       baseURL: domain.MOVIES_API,
     });
-    return instWithCred.patch(`changeItem/?id=${movie._id}`, { ...movie });
+    return instWithCred.patch(`changeItem/?id=${movie._id}`, { movie });
   },
 };
