@@ -10,7 +10,7 @@
           <span class="logo__text">MovieDB</span>
         </div>
         <div class="search">
-          <textInput :inputSettings="inputSettings"></textInput>
+          <textInput :inputSettings="inputSettings" />
         </div>
         <div class="language">
           <dropdown

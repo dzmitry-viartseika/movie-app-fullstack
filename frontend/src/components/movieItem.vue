@@ -46,6 +46,7 @@
               v-model="movieInfo.year"
               type="text"
             >
+            <textInput />
           </template>
         </div>
       </div>
@@ -53,17 +54,22 @@
     <div class="app-movie-item-action">
       <button
         v-if="editMode !== movie._id"
+        class="app-button__btn app-button__btn_primary"
         @click="changeItem(movie)"
       >
         {{ $t('global.edit') }}
       </button>
       <button
         v-else
+        class="app-button__btn app-button__btn_primary"
         @click="saveItem(movie)"
       >
         {{ $t('global.save') }}
       </button>
-      <button @click="deleteMovie(movie._id)">
+      <button
+        class="app-button__btn app-button__btn_cancel"
+        @click="deleteMovie(movie._id)"
+      >
         {{ $t('global.delete') }}
       </button>
     </div>
@@ -72,9 +78,13 @@
 
 <script>
 import moviesApi from '@/api/movies/moviesApi';
+import textInput from '@/components/elements/textInput';
 
 export default {
   name: 'MovieItem',
+  components: {
+    textInput,
+  },
   props: {
     movie: {
       type: Object,
@@ -92,6 +102,12 @@ export default {
     };
   },
   computed: {
+    inputSettings() {
+      return {
+        labelText: '',
+        typeInput: 'text',
+      };
+    },
     moviesList: {
       get() {
         return this.$store.getters.moviesList;
