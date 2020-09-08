@@ -22,7 +22,6 @@ export default {
     return instWithCred.delete(`/deleteItem/?id=${id}`);
   },
   updateMovie(movie) {
-    console.log('movie', movie);
     const instWithCred = axios.create({
       baseURL: domain.MOVIES_API,
     });

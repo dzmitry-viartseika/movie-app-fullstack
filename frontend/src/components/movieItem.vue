@@ -133,10 +133,37 @@ export default {
 
 .app-movie-item {
   min-width: 31%;
-  background: red;
+  border: 1px solid $color-black;
   margin: 0 10px 20px 10px;
   max-width: 31%;
   height: 300px;
+
+  &-action {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+
+  &-content {
+
+    .row {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+
+      &__label {
+        font-family: $font-global-medium;
+      }
+
+      &__text {
+
+        input {
+          margin-top: 5px;
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 
 </style>

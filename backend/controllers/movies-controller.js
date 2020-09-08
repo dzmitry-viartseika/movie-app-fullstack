@@ -36,13 +36,17 @@ class MoviesController {
         });
     };
     changeItem = async (req,res) => {
+        console.log('req', req.body);
+        console.log('req.query.id', req.query.id);
         moviesList.findOneAndUpdate({_id: req.query.id}, {$set:
-                {title: req.body.title, description: req.body.description, year: req.body.year}
+                {title: req.body.movie.title, description: req.body.movie.description, year: req.body.movie.year}
         },function(err, doc){
-            if(err){
-                console.log("Something wrong when updating data!");
+            console.log('doc', doc)
+            if (err) {
+                res.send('err');
+            } else {
+                res.send('result');
             }
-            console.log(doc);
         });
     };
 }
