@@ -10,10 +10,22 @@
             {{ movie.title }}
           </template>
           <template v-else>
-            <input
-              v-model="movieInfo.title"
-              type="text"
+            <textInput
+              :value.sync="movieInfo.title"
+              :autofocus="true"
+              :typeInput="'text'"
+              :class="{'error': $validator.errors.has('title')}"
+              :errorStatus="$validator.errors.has('title')"
             >
+            </textinput>
+            <transition name="fade-el">
+              <span
+                v-if="$validator.errors.has('title')"
+                class="app__validation"
+              >
+                {{ $validator.errors.first('title') }}
+              </span>
+            </transition>
           </template>
         </div>
       </div>
@@ -26,10 +38,21 @@
             {{ movie.description }}
           </template>
           <template v-else>
-            <input
-              v-model="movieInfo.description"
-              type="text"
+            <textInput
+              :value.sync="movieInfo.description"
+              :typeInput="'text'"
+              :class="{'error': $validator.errors.has('description')}"
+              :errorStatus="$validator.errors.has('description')"
             >
+            </textinput>
+            <transition name="fade-el">
+              <span
+                v-if="$validator.errors.has('description')"
+                class="app__validation"
+              >
+                {{ $validator.errors.first('description') }}
+              </span>
+            </transition>
           </template>
         </div>
       </div>
@@ -42,11 +65,22 @@
             {{ movie.year }}
           </template>
           <template v-else>
-            <input
-              v-model="movieInfo.year"
-              type="text"
+            <textInput
+              :value.sync="movieInfo.year"
+              :typeInput="'text'"
+              :class="{'error': $validator.errors.has('year')}"
+              :errorStatus="$validator.errors.has('year')"
             >
-            <textInput />
+              <textInput />
+              <transition name="fade-el">
+                <span
+                  v-if="$validator.errors.has('year')"
+                  class="app__validation"
+                >
+                  {{ $validator.errors.first('year') }}
+                </span>
+              </transition>
+            </textinput>
           </template>
         </div>
       </div>
@@ -79,6 +113,7 @@
 <script>
 import moviesApi from '@/api/movies/moviesApi';
 import textInput from '@/components/elements/textInput';
+import validationErrorMessage from '@/locales/validationErrorMessage';
 
 export default {
   name: 'MovieItem',
@@ -117,6 +152,40 @@ export default {
       },
     },
   },
+  beforeMount() {
+    const dict = {
+      en: {
+        custom: {
+          title: {
+            required: validationErrorMessage.en.inputRequired,
+          },
+          description: {
+            required: validationErrorMessage.en.inputRequired,
+          },
+          year: {
+            required: validationErrorMessage.en.inputRequired,
+          },
+        },
+      },
+      ru: {
+        custom: {
+          title: {
+            required: validationErrorMessage.ru.inputRequired,
+          },
+          description: {
+            required: validationErrorMessage.ru.inputRequired,
+          },
+          year: {
+            required: validationErrorMessage.ru.inputRequired,
+          },
+        },
+      },
+    };
+    this.$validator.localize(dict);
+    this.$validator.attach({ name: 'title', rules: { required: true } });
+    this.$validator.attach({ name: 'description', rules: { required: true } });
+    this.$validator.attach({ name: 'year', rules: { required: true } });
+  },
   methods: {
     deleteMovie(id) {
       moviesApi.deleteMovie(id).then(() => {
@@ -133,11 +202,18 @@ export default {
       this.movieInfo = item;
     },
     saveItem(movie) {
-      this.editMode = -1;
-      moviesApi.updateMovie(movie).then((resp) => {
-        console.log('resp', resp.data);
-      }).catch((e) => {
-        console.log(e);
+      this.$validator.validateAll({
+        title: this.movie.title,
+        description: this.movie.description,
+        year: this.movie.year,
+      }).then((result) => {
+        if (result) {
+          moviesApi.updateMovie(movie).then(() => {
+            this.editMode = -1;
+          }).catch((e) => {
+            console.log(e);
+          });
+        }
       });
     },
   },
@@ -149,10 +225,12 @@ export default {
 
 .app-movie-item {
   min-width: 31%;
-  border: 1px solid $color-black;
+  border: 1px solid $color-cornflower-blue;
   margin: 0 10px 20px 10px;
   max-width: 31%;
-  height: 300px;
+  height: auto;
+  border-radius: $borderRadius;
+  box-shadow: 0 0 8px rgba($color-black, .8);
 
   &-action {
     display: flex;
@@ -169,9 +247,16 @@ export default {
 
       &__label {
         font-family: $font-global-medium;
+        margin-bottom: 5px;
       }
 
       &__text {
+
+        position: relative;
+
+        .app__validation {
+          bottom: -3px;
+        }
 
         input {
           margin-top: 5px;

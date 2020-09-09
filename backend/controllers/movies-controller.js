@@ -36,18 +36,28 @@ class MoviesController {
         });
     };
     changeItem = async (req,res) => {
-        console.log('req', req.body);
-        console.log('req.query.id', req.query.id);
         moviesList.findOneAndUpdate({_id: req.query.id}, {$set:
                 {title: req.body.movie.title, description: req.body.movie.description, year: req.body.movie.year}
         },function(err, doc){
-            console.log('doc', doc)
             if (err) {
                 res.send('err');
             } else {
                 res.send('result');
             }
         });
+    };
+    getPaginatedMovies = async (req, res) => {
+        const {
+            page = 1,
+            limit = 10,
+        } = req.query;
+        const params = {};
+
+        const data = await moviesList.paginate(params, {
+            page,
+            limit,
+        });
+        return res.json(data)
     };
 }
 

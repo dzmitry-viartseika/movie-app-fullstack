@@ -24,6 +24,12 @@
         </transition>
       </div>
     </div>
+    {{ currentPaginationPage }}
+    <paginationTemplate
+      :totalPaginationPage="totalPaginationPage"
+      :currentPaginationPage="currentPaginationPage"
+      @getFilteredTable="getFilteredTable"
+    />
     <transition name="fade-el">
       <addNewMovieModal
         v-if="isVisibleModal"
@@ -35,6 +41,7 @@
 
 <script>
 import movieItem from '@/components/movieItem';
+import paginationTemplate from '@/components/elements/paginationTemplate';
 import noDataTemplate from '@/components/noDataTemplate';
 import addNewMovieModal from '@/components/modal/addNewMovieModal';
 import moviesApi from '@/api/movies/moviesApi';
@@ -45,6 +52,7 @@ export default {
     movieItem,
     addNewMovieModal,
     noDataTemplate,
+    paginationTemplate,
   },
   props: {
     movies: {
@@ -58,6 +66,22 @@ export default {
     };
   },
   computed: {
+    totalPaginationPage: {
+      get() {
+        return this.$store.getters.totalPage;
+      },
+      set(data) {
+        this.$store.dispatch('setTotalPage', data);
+      },
+    },
+    currentPaginationPage: {
+      get() {
+        return this.$store.getters.currentPage;
+      },
+      set(data) {
+        this.$store.dispatch('setCurrentPage', data);
+      },
+    },
     noData() {
       return {
         title: this.$t('placeholderMovie.titleNoData'),
@@ -76,13 +100,30 @@ export default {
     },
   },
   beforeMount() {
-    moviesApi.getMoviesList().then((resp) => {
-      this.moviesList = resp.data;
-    }).catch((e) => {
-      console.log(e);
-    });
+    moviesApi.getPaginatedMovies(1, 6)
+      .then((resp) => {
+        console.log('resp', resp.data);
+        this.moviesList = resp.data.docs;
+        this.currentPaginationPage = 1;
+        this.totalPaginationPage = resp.data.totalPages;
+        // this.totalPaginationPage = resp.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
   methods: {
+    getFilteredTable(page = 1) {
+      this.currentPaginationPage = page;
+      moviesApi.getPaginatedMovies(page, 6)
+        .then((resp) => {
+          this.totalPaginationPage = resp.data.totalPages;
+          this.moviesList = resp.data.docs;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     closeModal() {
       this.isVisibleModal = false;
     },
@@ -103,7 +144,7 @@ export default {
       display: flex;
       width: 100%;
       flex-wrap: wrap;
-      margin: 0 -8px;
+      margin: 20px -8px 0;
     }
 
     &__title {
