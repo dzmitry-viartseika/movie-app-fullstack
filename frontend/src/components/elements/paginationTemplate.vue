@@ -9,7 +9,7 @@
         class="pagination__button pagination__button_left"
         @click="goToPrevPage()"
       >
-        <i class="icon-arrow pagination__icon_left">1</i>
+        <i class="custom-icon-arrow-paginate pagination__icon pagination__icon_left"></i>
       </button>
       <template v-for="i in totalPaginationPage">
         <template
@@ -41,13 +41,14 @@
         class="pagination__button pagination__button_right"
         @click="goToNextPage()"
       >
-        <i class="icon-arrow pagination__icon_right">2</i>
+        <i class="custom-icon-arrow-paginate pagination__icon pagination__icon_right"></i>
       </button>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'PaginationTemplate',
   props: {
@@ -63,33 +64,20 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 10,
+      limit: 2,
     };
-  },
-  beforeMount() {
-    console.log('currentPaginationPage', this.currentPaginationPage);
-    console.log('totalPaginationPage', this.totalPaginationPage);
   },
   methods: {
     getPageData(i) {
-      this.$store.commit('stateLoader', true);
-      setTimeout(() => {
-        this.$store.commit('stateLoader', false);
-      }, 500);
+      console.log('i', i);
       this.$emit('getFilteredTable', i);
     },
     goToNextPage() {
-      this.$store.commit('stateLoader', true);
-      setTimeout(() => {
-        this.$store.commit('stateLoader', false);
-      }, 500);
+      console.log('this.currentPaginationPage', this.currentPaginationPage);
       this.$emit('getFilteredTable', this.currentPaginationPage + 1);
     },
     goToPrevPage() {
-      this.$store.commit('stateLoader', true);
-      setTimeout(() => {
-        this.$store.commit('stateLoader', false);
-      }, 1000);
+      console.log('this.currentPaginationPage', this.currentPaginationPage);
       this.$emit('getFilteredTable', this.currentPaginationPage - 1);
     },
   },
@@ -107,6 +95,10 @@ export default {
 
   &__wrap {
     color: $color-cornflower-blue;
+
+    i {
+      font-size: $font-size-huge;
+    }
   }
 
   &__button {
@@ -116,14 +108,15 @@ export default {
     cursor: pointer;
     box-sizing: border-box;
     outline: none;
-    border-radius: 4px;
+    border-radius: $borderRadius;
     font: 400 12px/16px $font-global-medium;
     color: $color-cornflower-blue;
     margin: 0 3px;
+    font-size: $font-size-huge;
 
     &_left {
       border-radius: 5px 0 0 5px;
-      transform: rotate(90deg);
+      transform: rotate(180deg);
       font-size: 8px;
       color: $color-cornflower-blue;
 
@@ -134,7 +127,7 @@ export default {
 
     &_right {
       border-radius: 0 5px 5px 0;
-      transform: rotate(-90deg);
+      transform: rotate(0deg);
       font-size: 8px;
       color: $color-cornflower-blue;
     }

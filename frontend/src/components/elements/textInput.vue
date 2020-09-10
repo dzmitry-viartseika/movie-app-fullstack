@@ -129,6 +129,15 @@ export default {
     &__wrap {
       position: relative;
 
+      i {
+        position: absolute;
+        right: 0;
+        color: $color-black;
+        font-size: $font-size-huge;
+        top: 7px;
+        right: 10px;
+      }
+
       &_error {
 
         .app-field__input {

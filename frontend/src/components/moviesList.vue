@@ -1,5 +1,6 @@
 <template>
   <div class="app-movies-list">
+    <loader v-if="ifLoader" />
     <div class="app__container">
       <div class="app-movies-list__title">
         IMDB {{ $t('moviesList.top') }} 250
@@ -45,6 +46,7 @@ import paginationTemplate from '@/components/elements/paginationTemplate';
 import noDataTemplate from '@/components/noDataTemplate';
 import addNewMovieModal from '@/components/modal/addNewMovieModal';
 import moviesApi from '@/api/movies/moviesApi';
+import loader from '@/components/loader';
 
 export default {
   name: 'MoviesList',
@@ -53,6 +55,7 @@ export default {
     addNewMovieModal,
     noDataTemplate,
     paginationTemplate,
+    loader,
   },
   props: {
     movies: {
@@ -63,6 +66,11 @@ export default {
   data() {
     return {
       isVisibleModal: false,
+      ifLoader: false,
+      queryParams: {
+        page: 1,
+        perPage: 2,
+      },
     };
   },
   computed: {
@@ -100,22 +108,32 @@ export default {
     },
   },
   beforeMount() {
-    moviesApi.getPaginatedMovies(1, 6)
+    this.ifLoader = true;
+    const {
+      page = this.queryParams.page,
+      perPage = this.queryParams.perPage,
+    } = this.queryParams;
+    this.queryParams = {
+      page,
+      perPage,
+    };
+    moviesApi.getPaginatedMovies(page, perPage)
       .then((resp) => {
-        console.log('resp', resp.data);
+        console.log('resp.data', resp.data);
+        this.ifLoader = false;
         this.moviesList = resp.data.docs;
-        this.currentPaginationPage = 1;
-        this.totalPaginationPage = resp.data.totalPages;
-        // this.totalPaginationPage = resp.data;
+        this.currentPaginationPage = resp.data.page;
+        this.totalPaginationPage = resp.data.totalDocs;
       })
       .catch((err) => {
+        this.ifLoader = false;
         console.error(err);
       });
   },
   methods: {
-    getFilteredTable(page = 1) {
+    getFilteredTable(page = 1, perPage = 2) {
       this.currentPaginationPage = page;
-      moviesApi.getPaginatedMovies(page, 6)
+      moviesApi.getPaginatedMovies(page, perPage)
         .then((resp) => {
           this.totalPaginationPage = resp.data.totalPages;
           this.moviesList = resp.data.docs;

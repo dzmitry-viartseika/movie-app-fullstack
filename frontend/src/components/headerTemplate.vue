@@ -10,7 +10,13 @@
           <span class="logo__text">MovieDB</span>
         </div>
         <div class="search">
-          <textInput :inputSettings="inputSettings" />
+          <textInput
+            :icon="'custom-icon-film-solid'"
+            :placeholder="'1231'"
+            :typeInput="'text'"
+            @handleEventClick="getRequests"
+            :value.sync="queryParams.search"
+          />
         </div>
         <div class="language">
           <dropdown
@@ -37,6 +43,7 @@ import buttonTemplate from '@/components/elements/buttonTemplate';
 import textInput from '@/components/elements/textInput';
 import dropdown from '@/components/elements/dropdown';
 import addNewMovieModal from '@/components/modal/addNewMovieModal';
+import moviesApi from '@/api/movies/moviesApi';
 
 export default {
   name: 'HeaderTemplate',
@@ -49,9 +56,22 @@ export default {
   data() {
     return {
       isVisibleModal: false,
+      queryParams: {
+        page: 1,
+        perPage: 2,
+        search: this.search,
+      },
     };
   },
   computed: {
+    moviesList: {
+      get() {
+        return this.$store.getters.moviesList;
+      },
+      set(data) {
+        this.$store.dispatch('setMoviesList', data);
+      },
+    },
     language: {
       get() {
         return this.$i18n.locale;
@@ -65,15 +85,6 @@ export default {
         buttonText: 'Add movie',
         buttonClickEvent: this.addNewMovie,
         borderButton: true,
-      };
-    },
-    inputSettings() {
-      return {
-        labelText: '',
-        placeholder: '1231',
-        icon: 'custom-icon-film-solid',
-        typeInput: 'text',
-        buttonClickEvent: this.searchMovie,
       };
     },
     dropdownOptions() {
@@ -91,8 +102,48 @@ export default {
         value: this.language,
       };
     },
+    totalPaginationPage: {
+      get() {
+        return this.$store.getters.totalPage;
+      },
+      set(data) {
+        this.$store.dispatch('setTotalPage', data);
+      },
+    },
+    currentPaginationPage: {
+      get() {
+        return this.$store.getters.currentPage;
+      },
+      set(data) {
+        this.$store.dispatch('setCurrentPage', data);
+      },
+    },
   },
   methods: {
+    getRequests() {
+      const {
+        page = this.queryParams.page,
+        perPage = this.queryParams.perPage,
+        search = this.queryParams.search,
+      } = this.queryParams;
+      this.queryParams = {
+        page,
+        perPage,
+        search,
+      };
+      this.loader = true;
+      moviesApi.getPaginatedMovies(page, perPage, search)
+        .then((resp) => {
+          console.log('resp.data', resp.data);
+          this.loader = false;
+          this.moviesList = resp.data.docs;
+          this.totalPaginationPage = resp.data.limit;
+          this.currentPaginationPage = resp.data.totalPages;
+        }).catch((err) => {
+          this.loader = false;
+          console.error(err);
+        });
+    },
     closeModal() {
       this.isVisibleModal = false;
     },

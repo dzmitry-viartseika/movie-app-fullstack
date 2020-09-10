@@ -49,14 +49,25 @@ class MoviesController {
     getPaginatedMovies = async (req, res) => {
         const {
             page = 1,
-            limit = 10,
+            limit = 2,
         } = req.query;
         const params = {};
-
+        console.log('req.query', req.query);
         const data = await moviesList.paginate(params, {
             page,
             limit,
         });
+
+        if(req.query.hasOwnProperty('search')) {
+            const searching = req.query.search;
+            console.log('searching', searching)
+            const data = await moviesList.paginate({$text: {$search: searching}}, {
+                page,
+                limit,
+            });
+            console.log('data', data);
+            return res.json(data)
+        }
         return res.json(data)
     };
 }
