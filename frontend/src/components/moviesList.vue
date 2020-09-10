@@ -25,7 +25,7 @@
         </transition>
       </div>
     </div>
-    {{ currentPaginationPage }}
+    totalPaginationPage={{ totalPaginationPage }}
     <paginationTemplate
       :totalPaginationPage="totalPaginationPage"
       :currentPaginationPage="currentPaginationPage"
