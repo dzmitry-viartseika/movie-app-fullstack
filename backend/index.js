@@ -49,6 +49,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/movies', router.moviesRouter);
 app.use('/auth', router.userRouter);
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(__dirname + '/public/'));
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
+}
+
 app.use('/', (req, res) => {
     res.send(`server is on port ${port}`)
 });
