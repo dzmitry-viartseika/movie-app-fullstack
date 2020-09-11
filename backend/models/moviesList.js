@@ -1,6 +1,28 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   Movie:
+ *     type: object
+ *     required:
+ *       - title
+ *       - description
+ *       - year
+ *     properties:
+ *       title:
+ *         type: string
+ *         description: title label
+ *       description:
+ *         type: string
+ *         description: description label
+ *       year:
+ *         type: string
+ *         description: year label
+ */
+
 const moviesSchema = new mongoose.Schema({
     title: {
         type: String,

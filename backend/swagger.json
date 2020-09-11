@@ -44,7 +44,7 @@
         "description": "This can only be done by the logged in user.",
         "operationId": "createUser",
         "produces": [
-          "application/json"
+          "ap`plication/json"
         ],
         "parameters": [
           {

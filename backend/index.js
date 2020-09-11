@@ -24,7 +24,7 @@ const swaggerOptions = {
         },
         "servers": "localhost:3000",
     },
-    apis: ["index.js"]
+    apis: ['./routers/movies.js']
   };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
