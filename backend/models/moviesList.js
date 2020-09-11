@@ -26,13 +26,20 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const moviesSchema = new mongoose.Schema({
     title: {
         type: String,
+        required: true,
+        trim: true,
     },
     description: {
         type: String,
+        required: true,
+        trim: true,
     },
     year: {
         type: String,
-    }
+        required: true,
+        trim: true,
+    },
+    created: { type: Date, default: Date.now }
 });
 
 moviesSchema.index({ title: 'text'});

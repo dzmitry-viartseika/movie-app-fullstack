@@ -180,7 +180,7 @@ export default {
         if (result) {
           moviesApi.addNewMovie(this.movie).then((resp) => {
             this.movie._id = resp.data._id;
-            this.moviesList.push(this.movie);
+            this.moviesList.unshift(this.movie);
             this.closeModal();
           }).catch((e) => {
             console.log(e);
