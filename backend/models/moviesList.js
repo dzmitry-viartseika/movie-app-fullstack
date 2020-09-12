@@ -22,7 +22,6 @@ const mongoosePaginate = require('mongoose-paginate-v2');
  *         type: string
  *         description: year label
  */
-
 const moviesSchema = new mongoose.Schema({
     title: {
         type: String,

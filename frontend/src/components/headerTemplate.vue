@@ -155,9 +155,6 @@ export default {
     addNewMovie() {
       this.isVisibleModal = true;
     },
-    searchMovie() {
-      console.log('searchMovie');
-    },
     proceedTo(route) {
       this.$router.push(route);
     },
