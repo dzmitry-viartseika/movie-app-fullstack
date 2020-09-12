@@ -25,7 +25,6 @@
         </transition>
       </div>
     </div>
-    totalPaginationPage={{ totalPaginationPage }}
     <paginationTemplate
       :totalPaginationPage="totalPaginationPage"
       :currentPaginationPage="currentPaginationPage"
@@ -69,7 +68,7 @@ export default {
       ifLoader: false,
       queryParams: {
         page: 1,
-        perPage: 2,
+        perPage: 9,
       },
     };
   },
@@ -123,7 +122,7 @@ export default {
         this.ifLoader = false;
         this.moviesList = resp.data.docs;
         this.currentPaginationPage = resp.data.page;
-        this.totalPaginationPage = resp.data.totalDocs;
+        this.totalPaginationPage = resp.data.totalPages;
       })
       .catch((err) => {
         this.ifLoader = false;
@@ -131,7 +130,7 @@ export default {
       });
   },
   methods: {
-    getFilteredTable(page = 1, perPage = 2) {
+    getFilteredTable(page = 1, perPage = 9) {
       this.currentPaginationPage = page;
       moviesApi.getPaginatedMovies(page, perPage)
         .then((resp) => {

@@ -58,7 +58,7 @@ export default {
       isVisibleModal: false,
       queryParams: {
         page: 1,
-        perPage: 2,
+        perPage: 9,
         search: this.search,
       },
     };
@@ -134,11 +134,10 @@ export default {
       this.loader = true;
       moviesApi.getPaginatedMovies(page, perPage, search)
         .then((resp) => {
-          console.log('resp.data', resp.data);
           this.loader = false;
           this.moviesList = resp.data.docs;
-          this.totalPaginationPage = resp.data.limit;
-          this.currentPaginationPage = resp.data.totalPages;
+          this.currentPaginationPage = resp.data.page;
+          this.totalPaginationPage = resp.data.totalPages;
         }).catch((err) => {
           this.loader = false;
           console.error(err);
@@ -173,11 +172,12 @@ export default {
     display: flex;
     justify-content: space-between;
     min-height: 50px;
-    padding: 15px 0;
+    padding: 15px 35px 15px 0;
     align-items: center;
   }
 
   .logo {
+    width: 25%;
     color: $color-white;
     cursor: pointer;
     transition: opacity .15s ease-in;
@@ -191,8 +191,22 @@ export default {
     }
   }
 
-  .action {
+  .search {
+    width: 40%;
 
+    .app-field {
+      margin-bottom: 0;
+    }
+  }
+
+  .language {
+    width: 8%;
+  }
+
+  .action {
+    width: 15%;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 </style>

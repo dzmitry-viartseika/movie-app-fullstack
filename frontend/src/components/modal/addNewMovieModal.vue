@@ -38,14 +38,12 @@
               </transition>
             </div>
             <div class="app-form-field">
-              <textInput
-                :typeInput="'text'"
-                :labelText="this.$t('global.descriptionField')"
+              <textAreaTemplate
+                :labelText="this.$t('global.titleFieild')"
                 :value.sync="movie.description"
                 :class="{'error': $validator.errors.has('description')}"
                 :errorStatus="$validator.errors.has('description')"
-              >
-              </textInput>
+              />
               <transition name="fade-el">
                 <span
                   v-if="$validator.errors.has('description')"
@@ -73,6 +71,15 @@
                 </span>
               </transition>
             </div>
+            <div class="app-form-field">
+              <input
+                type="file"
+                @change="onFileSelected"
+              >
+              <button @click="onUpload">
+                Upload Preview
+              </button>
+            </div>
           </div>
         </transition>
       </div>
@@ -95,6 +102,7 @@
 import moviesApi from '@/api/movies/moviesApi';
 import validationErrorMessage from '@/locales/validationErrorMessage';
 import textInput from '@/components/elements/textInput';
+import textAreaTemplate from '@/components/elements/textAreaTemplate';
 import buttonTemplate from '@/components/elements/buttonTemplate';
 
 export default {
@@ -102,6 +110,7 @@ export default {
   components: {
     textInput,
     buttonTemplate,
+    textAreaTemplate,
   },
   data() {
     return {
@@ -114,6 +123,7 @@ export default {
         description: '',
         year: '',
       },
+      selectedFile: null,
     };
   },
   computed: {
@@ -168,6 +178,14 @@ export default {
     this.$validator.attach({ name: 'year', rules: { required: true } });
   },
   methods: {
+    onFileSelected(event) {
+      console.log('onFileSelected');
+      // eslint-disable-next-line prefer-destructuring
+      this.selectedFile = event.target.files[0];
+    },
+    onUpload() {
+      console.log('onUpload');
+    },
     closeModal() {
       this.$emit('closeModal');
     },

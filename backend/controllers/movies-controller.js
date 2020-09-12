@@ -36,6 +36,8 @@ class MoviesController {
         });
     };
     changeItem = async (req,res) => {
+        console.log('req', req);
+        console.log('req', req);
         moviesList.findOneAndUpdate({_id: req.query.id}, {$set:
                 {title: req.body.movie.title, description: req.body.movie.description, year: req.body.movie.year}
         },function(err, doc){
@@ -49,23 +51,27 @@ class MoviesController {
     getPaginatedMovies = async (req, res) => {
         const {
             page = 1,
-            limit = 2,
+            limit = 9,
         } = req.query;
         const params = {};
-        console.log('req.query', req.query);
+
         const data = await moviesList.paginate(params, {
             page,
             limit,
+            sort: {
+                created: -1
+            }
         });
 
         if(req.query.hasOwnProperty('search')) {
             const searching = req.query.search;
-            console.log('searching', searching)
             const data = await moviesList.paginate({$text: {$search: searching}}, {
                 page,
                 limit,
+                sort: {
+                    created: -1
+                }
             });
-            console.log('data', data);
             return res.json(data)
         }
         return res.json(data)

@@ -27,8 +27,7 @@ export default {
     });
     return instWithCred.patch(`changeItem/?id=${movie._id}`, { movie });
   },
-  getPaginatedMovies(page = 1, perPage = 2, search) {
-    const sortQuery = '&sort={"createdAt": -1}';
+  getPaginatedMovies(page = 1, perPage = 9, search) {
     console.log('page', page);
     console.log('perPage', perPage);
     console.log('search', search);
@@ -36,6 +35,6 @@ export default {
       baseURL: domain.MOVIES_API,
     });
     const searchQuery = search ? `&search=${search}` : '';
-    return instWithCred.get(`getPaginatedMovies/?page=${page}&limit=${perPage}${searchQuery}${sortQuery}`);
+    return instWithCred.get(`getPaginatedMovies/?page=${page}&limit=${perPage}${searchQuery}`);
   },
 };

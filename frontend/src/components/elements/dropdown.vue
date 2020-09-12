@@ -27,7 +27,7 @@
                6.46916 0.129544 6.6666 0.277743L11.5554 3.94438C12.0463 4.31268 12.1459
                 5.00903 11.7776 5.4999C11.4096 5.99058 10.713 6.09059
                  10.2221 5.7221Z"
-              fill="#276EF1"
+              fill="#fff"
             />
           </svg>
         </div>
@@ -119,7 +119,6 @@ export default {
       this.$emit('changeDropdown', code);
     },
     close(e) {
-      console.log('!this.$el.contains(e.target)', !this.$el.contains(e.target));
       if (!this.$el.contains(e.target)) {
         this.visible = false;
       }
@@ -144,6 +143,11 @@ export default {
       cursor: pointer;
       transition: opacity .15s ease-in;
 
+      svg {
+        position: relative;
+        top: -1px;
+      }
+
       &:hover {
         opacity: .8;
       }
@@ -161,7 +165,7 @@ export default {
     &__text {
       margin-right: 6px;
       display: inline-block;
-      color: $color-dodger-blue;
+      color: $color-white;
       font: $font-size-h2 $font-global;
     }
 

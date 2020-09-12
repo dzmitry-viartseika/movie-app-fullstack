@@ -38,13 +38,11 @@
             {{ movie.description }}
           </template>
           <template v-else>
-            <textInput
+            <textAreaTemplate
               :value.sync="movieInfo.description"
-              :typeInput="'text'"
               :class="{'error': $validator.errors.has('description')}"
               :errorStatus="$validator.errors.has('description')"
-            >
-            </textinput>
+            />
             <transition name="fade-el">
               <span
                 v-if="$validator.errors.has('description')"
@@ -113,12 +111,14 @@
 <script>
 import moviesApi from '@/api/movies/moviesApi';
 import textInput from '@/components/elements/textInput';
+import textAreaTemplate from '@/components/elements/textAreaTemplate';
 import validationErrorMessage from '@/locales/validationErrorMessage';
 
 export default {
   name: 'MovieItem',
   components: {
     textInput,
+    textAreaTemplate,
   },
   props: {
     movie: {

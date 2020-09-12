@@ -147,11 +147,11 @@ export default {
     }
 
     &__icon {
-      color: $color-cardinal;
+      color: $color-cardinal!important;
       position: absolute;
-      right: 10px;
-      top: 10px;
-      font-size: $font-size-base;
+      right: 10px!important;
+      top: 10px!important;
+      font-size: $font-size-base!important;
     }
   }
 
