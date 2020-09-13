@@ -5,7 +5,20 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const router = require('./routers/export-router');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
+const ejs = require('ejs');
+const path = require('path');
 
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function(req, file, cb) {
+       cb(null, file.fieldname + '-' + Date.now()  + path.extname(file.originalname));
+    }
+})
+
+const upload = multer({
+    storage: storage,
+}).single('myImage');
 
 // Extended: https://swagger.io/specification/#infoObject
 
@@ -48,6 +61,19 @@ app.use(express.json())
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/movies', router.moviesRouter);
 app.use('/auth', router.userRouter);
+app.post('/upload', (req, res) => {
+    console.log('wertey');
+    upload(req,res, (err) => {
+        if (err) {
+            res.send('error');
+        } else {
+            console.log(req.body);
+            res.send('test');
+        }
+    })
+})
+
+app.use(express.static('./public'));
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(__dirname + '/public/'));

@@ -75,6 +75,7 @@
               <input
                 type="file"
                 @change="onFileSelected"
+                name="myImage"
               >
               <button @click="onUpload">
                 Upload Preview
@@ -100,6 +101,7 @@
 
 <script>
 import moviesApi from '@/api/movies/moviesApi';
+import uploadApi from '@/api/uploads/uploadApi';
 import validationErrorMessage from '@/locales/validationErrorMessage';
 import textInput from '@/components/elements/textInput';
 import textAreaTemplate from '@/components/elements/textAreaTemplate';
@@ -185,6 +187,13 @@ export default {
     },
     onUpload() {
       console.log('onUpload');
+      console.log('this.selectedFile', this.selectedFile);
+      const file = this.selectedFile;
+      uploadApi.addPreview(file).then((res) => {
+        console.log('res', res);
+      }).catch((e) => {
+        console.log(e);
+      });
     },
     closeModal() {
       this.$emit('closeModal');
