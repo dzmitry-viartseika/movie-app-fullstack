@@ -72,14 +72,7 @@
               </transition>
             </div>
             <div class="app-form-field">
-              <input
-                type="file"
-                @change="onFileSelected"
-                name="myImage"
-              >
-              <button @click="onUpload">
-                Upload Preview
-              </button>
+              <fileUpload />
             </div>
           </div>
         </transition>
@@ -106,6 +99,7 @@ import validationErrorMessage from '@/locales/validationErrorMessage';
 import textInput from '@/components/elements/textInput';
 import textAreaTemplate from '@/components/elements/textAreaTemplate';
 import buttonTemplate from '@/components/elements/buttonTemplate';
+import fileUpload from '@/components/elements/fileUpload';
 
 export default {
   name: 'AddNewMovieModal',
@@ -113,6 +107,7 @@ export default {
     textInput,
     buttonTemplate,
     textAreaTemplate,
+    fileUpload,
   },
   data() {
     return {
@@ -126,6 +121,8 @@ export default {
         year: '',
       },
       selectedFile: null,
+      file: '',
+      message: '',
     };
   },
   computed: {
@@ -180,20 +177,28 @@ export default {
     this.$validator.attach({ name: 'year', rules: { required: true } });
   },
   methods: {
-    onFileSelected(event) {
-      console.log('onFileSelected');
-      // eslint-disable-next-line prefer-destructuring
-      this.selectedFile = event.target.files[0];
+    onSelect() {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      const file = this.$refs.file.files[0];
+      this.file = file;
+      if (!allowedTypes.includes(file.type)) {
+        this.message = 'Filetype is wrong!!';
+      }
+      if (file.size > 500000) {
+        this.message = 'Too large, max size allowed is 500kb';
+      }
     },
-    onUpload() {
-      console.log('onUpload');
-      console.log('this.selectedFile', this.selectedFile);
-      const file = this.selectedFile;
-      uploadApi.addPreview(file).then((res) => {
-        console.log('res', res);
-      }).catch((e) => {
-        console.log(e);
-      });
+    async onSubmit() {
+      console.log('wertey');
+      const formData = new FormData();
+      formData.append('file', this.file);
+      try {
+        await uploadApi.addPreview(formData);
+        this.message = 'Uploaded!!';
+      } catch (err) {
+        console.log(err);
+        this.message = err.response.data.error;
+      }
     },
     closeModal() {
       this.$emit('closeModal');

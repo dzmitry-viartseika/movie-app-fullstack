@@ -82,7 +82,7 @@ export default {
     },
     buttonSettings() {
       return {
-        buttonText: 'Add movie',
+        buttonText: this.$t('global.addMovie'),
         buttonClickEvent: this.addNewMovie,
         borderButton: true,
       };
@@ -197,10 +197,6 @@ export default {
     .app-field {
       margin-bottom: 0;
     }
-  }
-
-  .language {
-    width: 8%;
   }
 
   .action {
